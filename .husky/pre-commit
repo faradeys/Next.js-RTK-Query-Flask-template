@@ -1,0 +1,9 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+declare IS_FRONTEND_CHANGE=$(git diff --staged --name-only --oneline | grep 'frontend/' | xargs)
+
+if [ -n "$IS_FRONTEND_CHANGE" ]; then
+  cd frontend
+  yarn pre-commit
+fi

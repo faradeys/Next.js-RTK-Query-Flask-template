@@ -1,0 +1,23 @@
+.Button {
+  display: block;
+  width: 100%;
+  padding: rem(20) rem(50);
+  border-radius: rem(30);
+  border: rem(1) solid $black;
+  text-transform: uppercase;
+  text-align: center;
+  background-color: $mint-def;
+  cursor: pointer;
+  transition: background-color 0.4s;
+  font-size: rem(18);
+
+  &:hover {
+    background-color: darken($mint-def, 10%);
+    color: $black;
+  }
+
+  &__disabled {
+    opacity: .5;
+    pointer-events: none;
+  }
+}

@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  nextjs-rtk-flask-prod:
+    container_name: nextjs-rtk-flask-prod
+    build:
+      context: ../../
+      dockerfile: docker/production/Dockerfile
+    image: nextjs-rtk-flask-prod
+    ports:
+      - '127.0.0.1:3003:3000'
+    networks:
+      - dpdnet
+networks:
+  dpdnet:
+    external:
+      name: dpdnet
