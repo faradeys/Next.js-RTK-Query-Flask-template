@@ -1,0 +1,103 @@
+{% extends "admin_panel/layouts/base.html" %}
+{% block content %}
+    <div class="container-fluid">
+        <div class="row page-titles">
+            <div class="col-md-12 align-self-center">
+                <h3 class="col-md-12 text-themecolor pull-left">Штрафы Dyson</h3>
+                {% include "admin_panel/layouts/action_desc.html" %}
+            </div>
+        </div>
+        <div class="updates_status alert alert-success" role="alert">Данные обновлены</div>
+        <div class="updates_status alert alert-danger" role="alert"> </div>
+        <div class="updates_status alert alert-warning" role="alert"> </div>
+
+        {% for main_ser_pars in main_ser_pars_list %}
+            <div class="row">
+                <div class="col-lg-12 col-md-12">
+                    <div class="card">
+                        <div class="card-body">
+
+                            <div class="d-flex">
+                                <div class="col-md-12">
+                                    <h3 class="col-md-9 text-themecolor pull-left"><span class="lstick"></span>Редактирование параметров{% if main_ser_pars %} {{ main_ser_pars.device }}{% endif %}</h3>
+                                    <a class='create_entry pull-right btn btn-success' href="#">Добавить</a>
+                                </div>
+                            </div>
+                            {% if main_parent_params %}
+                                <div class="form-group set-looking">
+                                    <select class="js-states form-control set-looking-parent" name="parent" required>
+                                        <option></option>
+                                        {% for main_parent in main_parent_params %}
+                                            <option value="{{ main_parent.id }}" {% if main_group_id and main_group_id==main_parent.id %}selected{% endif %}>{{ main_parent.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            {% endif %}
+                            <table id="sort_table" class="table offers_table">
+                                <thead>
+                                    <tr>
+                                        <th>Название</th>
+                                        <th>Аббревиатура</th>
+                                        <th>Родитель</th>
+                                        <th>Значение параметра</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for ser_par in main_ser_pars.ser_pars_list %}
+                                        <tr {% if ser_par and ser_par.deprecated==1 %}class="deprecated_old"{% endif %} {% if ser_par and ser_par.parent %} data-parent_id="{{ ser_par.parent }}"{% endif %}>
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" name="name" placeholder="Название" value="{{ ser_par.name if ser_par }}" required>
+                                                </div>
+                                            </td>
+
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" name="u_name" placeholder="Аббревиатура" value="{{ ser_par.u_name if ser_par }}" required>
+                                                </div>
+                                            </td>
+
+                                            <td class="ser_pars optional">
+                                                <div class="form-group">
+                                                    <select class="select-subject-ser-par-parent js-states form-control" name="parent" required>
+                                                        <option></option>
+                                                        {% for parent in params.parent %}
+                                                            <option value="{{ parent.id }}" {% if ser_par and ser_par.parent==parent.id %}selected{% endif %}>{{ parent.name }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </td>
+
+                                            <td class="optional">
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" name="spec_value" placeholder="Значение" value="{{ ser_par.spec_value if ser_par }}" required>
+                                                </div>
+                                            </td>
+
+                                            {% if ser_par and ser_par.deprecated==1 %}
+                                                <td class="action_button">
+                                                    <a class="respawn" href="#">👍</a>
+                                                </td>
+                                            {% else %}
+                                                <td class="action_button">
+                                                    <a class="deprecated" href="#">💩</a>
+                                                </td>
+                                            {% endif %}
+                                            <td class="action_button">
+                                                <a class="purge" href="#">❌</a>
+                                            </td>
+                                            <input type="hidden" name="offer_id" value="{{ ser_par.id if ser_par }}">
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                                <input type="hidden" name="updates_offers_type" value="service_params">
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}

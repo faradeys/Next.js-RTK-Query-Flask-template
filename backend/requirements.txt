@@ -1,0 +1,44 @@
+# app
+Flask==1.0.2
+Flask-Cors==3.0.6
+Flask-Login==0.4.1
+Flask-Mail==0.9.1
+Flask-Migrate==2.2.1
+Flask-RESTful==0.3.6
+Flask-Script==2.0.6
+gunicorn==19.7.1
+natsort
+pickle-mixin
+
+# db
+SQLAlchemy==1.3.0
+Flask-SQLAlchemy==2.3.2
+alembic-verify>=0.1.4
+sqlalchemy-diff>=0.1.3
+sqlalchemy-json==0.4.0
+psycopg2-binary==2.7.4
+redis>=2.10.5
+git+https://github.com/festelm8/simple-storage.git@master
+marshmallow==2.21.0
+
+#validation
+webargs==3.0.1
+
+#image processing
+Pillow==8.4
+
+# debug tools
+ipython
+names
+tqdm
+docker
+
+# Tests
+Flask-Testing==0.7.1
+
+# Parsing
+pygsheets
+oauth2client
+openpyxl==2.6.4
+fake_useragent
+bs4

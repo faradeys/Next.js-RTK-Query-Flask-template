@@ -1,0 +1,126 @@
+{% extends "admin_panel/layouts/base.html" %}
+{% block content %}
+    <div class="container-fluid">
+        <div class="row page-titles">
+            <div class="col-md-12 align-self-center">
+                <h3 class="col-md-12 text-themecolor pull-left">Поиск пользователей</h3>
+                {% include "admin_panel/layouts/action_desc.html" %}
+            </div>
+        </div>
+        {% if search_fail %}
+            <div class="user_search_status alert alert-warning" role="alert">Ничего не найдено</div>
+        {% endif %}
+        <div class="updates_status alert alert-success" role="alert">Данные обновлены</div>
+        <div class="updates_status alert alert-danger" role="alert"> </div>
+        <div class="updates_status alert alert-warning" role="alert"> </div>
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <div class="col-md-12">
+                                <h3 class="col-md-9 text-themecolor pull-left"><span class="lstick"></span>Поиск по номеру телефона или ID Соц.сети</h3>
+                            </div>
+                        </div>
+                        <form id="find_user_form" method="post" action="/admin/users">
+                            <input type="text" class="form-control col-md-9" name="search_str" placeholder="Например FB:123456" value="">
+                            <a class='find_user_btn btn btn-secondary' href="#">Найти</a>
+                        </form>
+                        <div class="d-flex heading--margin">
+                            <div class="col-md-12">
+                                <h3 class="col-md-9 text-themecolor pull-left"><span class="lstick"></span>Поиск по ID</h3>
+                            </div>
+                        </div>
+                        <form id="find_user_id_form" method="post" action="/admin/users">
+                            <input type="text" class="form-control col-md-9" name="search_id_str" placeholder="Например 13e8554d-bb15-4da7-9183-8b5a8c6e45e7" value="">
+                            <a class='find_user_id_btn btn btn-secondary' href="#">Найти</a>
+                        </form>
+                        {% if users_list %}
+                            <table id="sort_table" class="table offers_table">
+                                <thead>
+                                    <tr>
+                                        <th>Номер телефона</th>
+                                        <th>ID Соц.сети</th>
+                                        <th>Имя</th>
+                                        <th>Город</th>
+                                        <th>E-mail</th>
+                                        <th>Бонусы</th>
+                                        <th>Зареган</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for user in users_list %}
+                                        <tr>
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" name="phone" value="{{ user.phone|default("", True)  if user }}">
+                                                </div>
+                                            </td>
+
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" name="side_id" value="{{ user.side_id|default("", True)  if user }}" disabled>
+                                                </div>
+                                            </td>
+
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" name="name" value="{{ user.name|default("", True)  if user }}" >
+                                                </div>
+                                            </td>
+
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" name="city" value="{{ user.city|default("", True)  if user }}" >
+                                                </div>
+                                            </td>
+
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" name="email" value="{{ user.email|default("", True)  if user }}">
+                                                </div>
+                                            </td>
+
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="number" step="1" class="form-control" name="bonuses" value="{{ user.bonuses  if user }}">
+                                                </div>
+                                            </td>
+
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" name="created_at" value="{{ user.created_at|default("", True)  if user }}" disabled>
+                                                </div>
+                                            </td>
+
+                                            <input type="hidden" name="user_id" value="{{ user.id if user }}">
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                                <input type="hidden" name="updates_offers_type" value="users">
+                            </table>
+                        {% endif %}
+                        {% if pass_change %}
+                            <div class="d-flex">
+                                <div class="col-md-12">
+                                    <h3 class="col-md-9 text-themecolor pull-left"><span class="lstick"></span>Изменение пароля</h3>
+                                </div>
+                            </div>
+                            <form id="change_pass_form" method="post" action="/admin/users/new_pass">
+                                <div class="password_set_status password_not_exec alert alert-danger" role="alert">Пароли не совпадают</div>
+                                <div class="password_set_status password_smth_wrong alert alert-danger" role="alert">Что-то пошло не так</div>
+                                <div class="password_set_status password_change_succ alert alert-success" role="alert">Пароль изменён</div>
+                                <div class="change-pass-input-wrapper">
+                                    <input class="form-control change-pass-input" type="password" name="cp1" placeholder="Новый пароль" required>  
+                                    <input class="form-control change-pass-input" type="password" name="cp2" placeholder="Повторите пароль" required>  
+                                </div>
+                                <input type="submit" class="btn btn-primary change-password-btn" value="Сменить пароль">
+                            </form>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,136 @@
+{% extends "admin_panel/layouts/base.html" %}
+{% block content %}
+    <div class="container-fluid">
+        <div class="row page-titles">
+            <div class="col-md-12 align-self-center">
+                <h3 class="col-md-12 text-themecolor pull-left">TradeIn iPad</h3>
+                {% include "admin_panel/layouts/action_desc.html" %}
+            </div>
+        </div>
+        <div class="updates_status alert alert-success" role="alert">Данные обновлены</div>
+        <div class="updates_status alert alert-danger" role="alert"> </div>
+        <div class="updates_status alert alert-warning" role="alert"> </div>
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+                <div class="card">
+                    <div class="card-body">
+
+                        <div class="d-flex">
+                            <div class="col-md-12">
+                                <h3 class="col-md-9 text-themecolor pull-left"><span class="lstick"></span>Предложения по выкупу iPad</h3>
+                                <a class='create_entry pull-right btn btn-success' href="#">Добавить</a>
+                            </div>
+                        </div>
+                        <table id="sort_table" class="table offers_table">
+                            <thead>
+                                <tr>
+                                    <th>Артикул</th>
+                                    <th>Модель</th>
+                                    <th>Память</th>
+                                    <th>Модуль</th>
+                                    <th>Сост. как новый цена</th>
+                                    <th>Сост. хорошее цена</th>
+                                    <th>Сост. плохое цена</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% set cur_model = {'name': ''} %}
+                                {% for offer in offers_list %}
+                                    {% if cur_model.name != offer.models_names and offer.deprecated!=1 %}
+                                        <tr id="{{ offer.models_ipads }}"><td colspan="4"><h3>{{ offer.models_names }}</h3></td></tr>
+                                    {% endif %}
+                                    <tr {% if offer and offer.deprecated==1 %}class="deprecated_old"{% endif %}>
+                                        {% if cur_model.update({'name': offer.models_names}) %}{% endif %}
+                                        <td class="optional">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" name="vendor_code" placeholder="Артикул" value="{{ offer.vendor_code|default("", True) if offer }}" required>
+                                            </div>
+                                        </td>
+
+                                        <td>
+                                            <div class="form-group">
+                                                <select class="select-subject-model-macbook js-states form-control" name="models_ipads" required>
+                                                    <option></option>
+                                                    {% for models_ipads in params.models_ipads %}
+                                                        <option value="{{ models_ipads.val }}" {% if offer and offer.models_ipads==models_ipads.val %}selected{% endif %}>{{ models_ipads.name }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </td>
+
+                                        <td>
+                                            <div class="form-group">
+                                                <select class="select-subject-memory js-states form-control" name="memory" required>
+                                                    <option></option>
+                                                    {% for memory in params.memory %}
+                                                        <option value="{{ memory.val }}" {% if offer and offer.memory==memory.val %}selected{% endif %}>{{ memory.name }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </td>
+
+                                        <td>
+                                            <div class="form-group">
+                                                <select class="select-subject-cellular js-states form-control" name="cellular" required>
+                                                    <option></option>
+                                                    {% for cellular in params.cellular %}
+                                                        <option value="{{ cellular.val }}" {% if offer and offer.cellular==cellular.val %}selected{% endif %}>{{ cellular.name }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </td>
+
+                                        <td>
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" name="price_best" placeholder="Состояние как новое цена" value="{{ offer.price_best if offer }}" required>
+                                            </div>
+                                        </td>
+
+                                        <td>
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" name="price_well" placeholder="Состояние хорошее цена" value="{{ offer.price_well if offer }}" required>
+                                            </div>
+                                        </td>
+
+                                        <td>
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" name="price_bad" placeholder="Состояние плохое цена" value="{{ offer.price_bad if offer }}" required>
+                                            </div>
+                                        </td>
+
+
+                                        {% if offer and offer.deprecated==1 %}
+                                            <td class="action_button">
+                                                <a class="respawn" href="#">👍</a>
+                                            </td>
+                                        {% else %}
+                                            <td class="action_button">
+                                                <a class="deprecated" href="#">💩</a>
+                                            </td>
+                                        {% endif %}
+                                        <td class="action_button">
+                                            <a class="purge" href="#">❌</a>
+                                        </td>
+                                        <input type="hidden" name="offer_id" value="{{ offer.id if offer }}">
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                            <input type="hidden" name="updates_offers_type" value="ipad_buyout">
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="models_navigate">
+        {% set cur_model_button = {'name': ''} %}
+        {% for offer in offers_list %}
+            {% if cur_model_button.name != offer.models_ipads and offer.deprecated!=1 %}
+                <span goto="{{ offer.models_ipads }}" class="label label-primary">{{ offer.models_names }}</span>
+            {% endif %}
+            {% if cur_model_button.update({'name': offer.models_ipads }) %}{% endif %}
+        {% endfor %}
+    </div>
+
+{% endblock %}

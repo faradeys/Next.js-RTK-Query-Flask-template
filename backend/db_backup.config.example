@@ -1,0 +1,9 @@
+DB_USER=user
+DB_PASS=pwd
+DB_NAME=dbname
+SSH_USER=ssh_user
+SSH_PORT=22
+SSH_HOST=12.34.56.78
+SSH_KEY=/root/.ssh/bp_rsa
+SSH_FILES_PATH=/remote/path/to/destination/folder
+LOGS_PATH=/var/logs

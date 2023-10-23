@@ -1,0 +1,86 @@
+SQLALCHEMY_DATABASE_URI = None
+SQLALCHEMY_TRACK_MODIFICATIONS = True
+REDIS_HOST = None
+HOST = None
+PORT = 5000
+DEBUG = True
+
+FIXTURE_USERS = {
+    'test_user': {
+        'password': 'password',
+        'email': 'test@email.com',
+        'phone': '89999999999'
+    },
+    'admin': {
+        'password': 'password',
+        'email': 'admin@email.com',
+        'phone': '89999999991'
+    }
+}
+
+SMS_LOGIN = None
+SMS_PASS = None
+SMS_SENDER_NAME = None
+
+MAX_AVATAR_CONTENT_LENGTH = 20 * 1024 * 1024
+SECRET_KEY = None
+TOKEN_EXPIRATION = None
+CHANGE_PHONE_CODE_EXPIRATION = None
+CHANGE_PHONE_CODE_COOLDOWN = None
+CHANGE_MAIL_CODE_EXPIRATION = None
+AUTH_TRIES = None
+BAD_AUTH_COOLDOWN = None
+RESET_PASS_TRIES = None
+RESET_PASS_COOLDOWN = None
+INVITE_FRIEND_TRIES = None
+INVITE_FRIEND_COOLDOWN = None
+VK_IMPLICIT_AUTH_APPID = None
+FB_IMPLICIT_AUTH_APPID = None
+TELEGRAM_ORDER_TOKEN = None
+TELEGRAM_STATS_ORDER_TOKEN = None
+TELEGRAM_STATS_ACCESS_TOKEN = None
+DISCORD_ORDER_TOKEN = None
+TELEGRAM_ORDER_CHAT = None
+DISCORD_LOG_TOKEN = None
+ADMIN_PHONE = None
+
+UPLOAD_DIR = './src/static/uploads'
+PUBLIC_ROOT = './src/static'
+
+SITE_URL = None
+
+SENDER_NAME = None
+SENDER_MAIL = None
+MAIL_SERVER = None
+MAIL_PORT = None
+MAIL_USE_TLS = False
+MAIL_USERNAME = None
+MAIL_PASSWORD = None
+
+ID_GOOGLE_SHEET = None
+
+# save calc
+SAVE_CALC_TIME = 172800
+
+# generate short url domain
+SHORT_URL = 'https://dampr.ru/'
+
+# asus ask-2
+AUTH_LINK_ASUS = 'https://support.ask-2.ru'
+LOGIN_ASUS = None
+PASSWORD_ASUS = None
+TIME_CASHE_ASUS = 3600
+
+IMG_URL = 'https://damprodam.ru/assetsnv/img/'
+
+IMAP_SERVER_URL = None
+PARSE_EMAIL_LOGIN = None
+PARSE_EMAIL_PASSWORD = None
+PARSE_EMAIL_URL = []
+
+RECAPTCHA_SECRET = None
+
+SELLER_BOT_TOKEN = None
+SELLER_BOT_REQUEST_URL = None
+
+GOOGLE_SHEET_PRICE_ID = None

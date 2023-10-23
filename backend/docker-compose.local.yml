@@ -1,0 +1,52 @@
+version: '3'
+
+services:
+  nextjs-rtk-flask-api-dev:
+    container_name: nextjs-rtk-flask-api-dev
+    build: .
+    depends_on:
+      - 'nextjs-rtk-flask-db-dev'
+    ports:
+      - '5022:5000'
+    environment:
+      - 'PYTHONUNBUFFERED=0'
+    volumes:
+      - '.:/srv/flask_api'
+      - './instance/cron_schedule_web:/etc/cron_schedule'
+      - './logs:/var/logs'
+    tty: true
+    #command: /usr/bin/python /usr/local/bin/supervisord -n -c supervisor.conf
+    networks:
+      - elmvnet
+  nextjs-rtk-flask-db-dev:
+    container_name: nextjs-rtk-flask-db-dev
+    build: ./docker/postgres
+    image: postgres:9.6
+    ports:
+      - '5023:5432'
+    environment:
+      - 'PGDATA=/var/lib/postgresql/flask_api'
+      - 'PYTHONPATH=.'
+      # - 'POSTGRES_HOST_AUTH_METHOD=trust'
+    working_dir: /var/www
+    volumes:
+      - './docker_files/postgres:/var/lib/postgresql/flask_api'
+      - './docker/postgres/db_backup.sh:/var/www/db_backup.sh'
+      - './instance/cron_schedule:/etc/cron_schedule'
+      - './instance/db_backup.config:/var/www/db_backup.config'
+      - './instance/ssh:/root/.ssh/'
+      - '/tmp/bp/sqls/dpd-flask-sqls:/tmp/flask'
+      - './logs:/var/logs'
+    networks:
+      - elmvnet
+  nextjs-rtk-flask-redis-dev:
+    container_name: nextjs-rtk-flask-redis-dev
+    image: redis:6.2
+    volumes:
+      - ./docker_files/redis:/data
+    networks:
+      - elmvnet
+networks:
+  elmvnet:
+    external:
+      name: elmvnet

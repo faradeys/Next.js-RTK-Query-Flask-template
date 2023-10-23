@@ -1,0 +1,96 @@
+{% extends "admin_panel/layouts/base.html" %}
+{% block content %}
+    <div class="container-fluid">
+        <div class="row page-titles">
+            <div class="col-md-12 align-self-center">
+                <h3 class="col-md-12 text-themecolor pull-left">Цвета</h3>
+            </div>
+        </div>
+        <div class="updates_status alert alert-success" role="alert">Данные обновлены</div>
+        <div class="updates_status alert alert-danger" role="alert"> </div>
+        <div class="updates_status alert alert-warning" role="alert"> </div>
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+                <div class="card">
+                    <div class="card-body">
+
+                        <div class="d-flex">
+                            <div class="col-md-12">
+                                <h3 class="col-md-9 text-themecolor pull-left"><span class="lstick"></span>Цвета</h3>
+                                <a class='create_entry pull-right btn btn-success' href="#">Добавить</a>
+                            </div>
+                        </div>
+                        <table id="sort_table" class="table offers_table">
+                            <thead>
+                                <tr>
+                                    <th>Тип сервиса</th>
+                                    <th>Модель</th>
+                                    <th>Цвет</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% set cur_model = {'name': ''} %}
+                                {% for offer in offers_list %}
+                                    {% if cur_model.name != offer.device_type.name|string and offer.deprecated!=1 %}
+                                        <tr id="{{ offer.device_type.name|string }}"><td colspan="4"><h3>{{ offer.device_type.name|string }}</h3></td></tr>
+                                    {% endif %}
+                                    <tr {% if offer and offer.deprecated==1 %}class="deprecated_old"{% endif %}>
+                                        {% if cur_model.update({'name': offer.device_type.name|string }) %}{% endif %}
+                                        <td>
+                                            <div class="form-group">
+                                                <select class="select-subject-model-macbook js-states form-control" name="device_type" required>
+                                                    <option></option>
+                                                    {% for device_type in params.device_type %}
+                                                        <option value="{{ device_type.val }}" {% if offer and offer.device_type.u_name==device_type.val %}selected{% endif %}>{{ device_type.name }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </td>
+                                        
+                                        <td>
+                                            <div class="form-group">
+                                                <select class="select-subject-model-macbook js-states form-control" name="model" required>
+                                                    <option></option>
+                                                    {% for model in params.models %}
+                                                        <option value="{{ model.val }}" {% if offer and offer.model==model.val %}selected{% endif %}>{{ model.name }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </td>
+                                        
+                                        <td>
+                                            <div class="form-group">
+                                                <select class="select-subject-model-macbook js-states form-control" name="color" required>
+                                                    <option></option>
+                                                    {% for color in params.color %}
+                                                        <option value="{{ color.val }}" {% if offer and offer.color==color.val %}selected{% endif %}>{{ color.name }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </td>
+
+                                        {% if offer and offer.deprecated==1 %}
+                                            <td class="action_button">
+                                                <a class="respawn" href="#">👍</a>
+                                            </td>
+                                        {% else %}
+                                            <td class="action_button">
+                                                <a class="deprecated" href="#">💩</a>
+                                            </td>
+                                        {% endif %}
+                                        <td class="action_button">
+                                            <a class="purge" href="#">❌</a>
+                                        </td>
+                                        <input type="hidden" name="offer_id" value="{{ offer.id if offer }}">
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                            <input type="hidden" name="updates_offers_type" value="device_colors">
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

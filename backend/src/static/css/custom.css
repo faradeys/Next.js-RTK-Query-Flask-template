@@ -1,0 +1,194 @@
+.sidebar-nav > ul > li > a i{
+    font-size: 18px !important;
+}
+.mini-sidebar .sidebar-nav #sidebarnav > li > a {
+    padding: 12px 14px !important;
+}
+@media (min-width: 768px) {
+    .mini-sidebar .left-sidebar {
+        width: 50px !important;
+    }
+
+    .mini-sidebar .page-wrapper {
+        margin-left: 50px !important;
+    }
+
+    .mini-sidebar .sidebar-nav #sidebarnav > li > ul {
+        left: 50px !important;
+        width: 240px !important;
+    }
+}
+
+.js-example-basic-single{
+    width: 100%;
+}
+
+.action_desc{
+    margin-top: 40px;
+    display: block;
+}
+
+.action_desc a{
+    display: block;
+    font-size: 17px;
+    padding: 20px 0 0 0;
+    text-decoration: none;
+    text-align: center;
+}
+
+.action_desc .action_desc_content{
+    display: none;
+}
+
+#sort_table .header{
+    cursor: pointer;
+}
+#sort_table .header:hover{
+    background-color: #c5dbfb;
+}
+#sort_table .header.headerSortDown{
+    background-color: #c5dbfb;
+}
+#sort_table .header.headerSortUp{
+    background-color: #f1afad;
+}
+
+body .left-sidebar{
+    width: 180px;
+}
+
+body .page-wrapper{
+    margin-left: 180px;
+}
+
+.set-looking, .find-user{
+    margin-top: 30px;
+}
+.offers_table .form-group{
+    margin-bottom: 5px;
+}
+.offers_table .form-control{
+    padding: 4px;
+    min-height: inherit;
+}
+.offers_table select.form-control:not([size]):not([multiple]){
+    height: 25px;
+}
+.offers_table{
+    margin-top: 20px;
+}
+.offers_table, .offers_table select, .offers_table input{
+    font-size: 12px;
+}
+.offers_table select{
+    min-width: 110px;
+}
+.offers_table td{
+    min-width: 60px;
+}
+.offers_table .optional select, .offers_table .optional input, .offers_table .optional .select2-selection{
+    border:1px solid #fc86ec;
+}
+.offers_table td.ser_pars{
+    width: 510px;
+}
+.offers_table td.action_button{
+    min-width: 40px;
+    width: 40px;
+}
+.offers_table .select2-container{
+    margin-bottom: 4px;
+}
+
+.offers_table.table .action_button a{
+    display: block;
+    margin-top: -5px;
+    margin-bottom: 6px;
+    font-size: 22px;
+    padding: 0px 9px 0px;
+}
+
+.models_navigate{
+    margin: 0;
+    width: 100%;
+    display: block;
+    position: fixed;
+    bottom: 0;
+    background-color: white;
+    padding: 10px 20px;
+    border-top: 2px solid #735af1;
+    color: white;
+}
+
+.models_navigate .label-primary{
+    cursor: pointer;
+}
+
+.models_navigate .label-primary:hover {
+    background-color: #2c00ff;
+}
+
+table.table.hide_excess tbody tr{
+    display: none;
+}
+table.table.hide_excess tbody tr.not_excess, table.table.hide_excess tbody tr.new_one{
+    display: table-row;
+}
+
+table.table .action_button a:hover{
+    border-radius: 6px;
+    background-color: #edf1ff;
+}
+
+table.table td{
+    padding: 11px 4px 0 4px;
+}
+
+table.table tr.new_one{
+    background-color: #e2ffef;
+}
+
+table.table tr.purge{
+    background-color: #ffd5d5;
+}
+
+table.table tr.deprecated, table.table tr.deprecated_old{
+    background-color: #c5bbfe;
+}
+
+table.table tr.deprecated_old{
+    display: none;
+}
+table.table tr.deprecated_old.promo_codes{
+    display: table-row;
+}
+
+table.table.show_deprecated_old tr.deprecated_old{
+    display: table-row;
+}
+
+table.table tr.changed, table.table tr.respawn{
+    background-color: #fff3d1;
+}
+
+table.table tr.deprecated_old input, table.table tr.deprecated_old select, table.table tr.deprecated input, table.table tr.deprecated select, table.table tr.purge input, table.table tr.purge select{
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+button.show_old_deprecated{
+    float: right;
+    margin-right: 30px;
+}
+
+.save_all{
+    margin-right: 20px;
+}
+
+.updates_status{
+    display: none;
+}
+
+.dark-logo{
+    margin-left: 20px;
+}

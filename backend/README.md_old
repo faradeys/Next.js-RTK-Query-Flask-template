@@ -1,0 +1,497 @@
+##DOCS
+https://documenter.getpostman.com/view/4633020/damprodam-flask-api/RWEfNKWM#d64b04fd-d63e-40bb-b816-be893492fd0d
+
+
+# Регистрация
+### `POST: /api/reg`
+
+Обычная регистрация с отправкой номера телефона и пароля
+```
+{
+    'phone': '79995553322',  <-required
+    'name': 'elmv',
+    'password': 'cock'
+}
+```
+
+Если пароль не предоставлен, тогда он будет сгенерирован автоматически
+```
+{
+    'phone': '79995553322'  <-required
+}
+```
+
+### `RESPONSE`
+
+В ответ api пришлет id нового пользователя
+```
+{
+    'uid': '60f70cfd-4e36-4a7e-ad3c-635734b8985e'
+}
+```
+
+
+# Авторизация
+## Авторизация через логин и пароль
+### `POST: /api/login`
+
+Тут все как у людей, логин да пароль
+```
+{
+    'phone': '79995553322',  <-required
+    'password': 'cock'  <-required
+}
+```
+
+## Авторизация через VK
+### `POST: /api/login/vk`
+
+Получаем у ВК токен для зарегистрированного приложения
+```
+{
+    'access_token': 'vktoken'  <-required
+}
+```
+
+## Авторизация через FB
+### `POST: /api/login/fb`
+
+Получаем у Facebook токен для зарегистрированного приложения
+```
+{
+    'access_token': 'fbtoken'  <-required
+}
+```
+
+### `RESPONSE`
+
+В ответ на все вышеизложенные роуты, апи в случае успеха вернет access token уже нашего приложения
+```
+{
+    "access_token": "tokentokentoken"
+}
+```
+
+
+# Выход из системы
+### `POST: /api/logout`
+`HEADERS: Authorization: <access_token>`
+
+Для деактивации текущего токена, переходим по роуту с аторизационным токеном в заголовке
+
+
+# Восстановление доступа
+### `POST: /api/restore_pass`
+
+Передаем номер телефона пользователя, апи сгенерирует новый пароль и пришлет по СМС
+```
+{
+    'phone': '79995553322'  <-required
+}
+```
+
+# Работа с пользовательскими данными
+## Информация о текущем пользователе
+### `GET: /api/me`
+`HEADERS: Authorization: <access_token>`
+
+### `RESPONSE`
+
+Ессесна вся инфа о залогиненом пользователе
+```
+{
+    "city": "Солнечная Мордовия",
+    "created_at": "2018-03-01T15:11:45+00:00",
+    "name": "kekeke",
+    "phone": "0987654321",
+    "id": "add5e7cb-45ac-496c-bc26-62289b898d25",
+    "email": "dick@cock.elmv"
+}
+```
+
+## Правка данных о текущем пользователе
+### `PATCH: /api/me`
+`HEADERS: Authorization: <access_token>`
+
+Все описанные поля являюстя необязательными. Какое поле нужно изменить - такое и нужно отправлять. Ниже описаны доступные для изменения поля.
+```
+{
+	"city": "Обосанная Братислава"
+}
+```
+\* - обязательные поля <br>
+`city` - Город <br>
+`name` -  Имя пользователя <br>
+
+### `RESPONSE`
+200 OK
+
+
+## Изменение номера телефона
+### `PATCH: /api/me/change_phone`
+`HEADERS: Authorization: <access_token>`
+
+Для начала отправляем номер телефона на который нужно заменить
+```
+{
+	"phone": "79876543210"
+}
+```
+Если вернуло 200 значит смс ушло успешно. Для завершения смены номера телефона, отправляем код, который пришел по смс, на этот же роут
+```
+{
+	"verify_code": "1234"
+}
+```
+
+### `RESPONSE`
+200 OK
+
+
+## Изменение email
+### `PATCH: /api/me/change_email`
+`HEADERS: Authorization: <access_token>`
+
+Для начала отправляем email на который нужно заменить
+```
+{
+	"email": "new@mail.ru"
+}
+```
+Если вернуло 200 значит email ушло успешно. Для завершения смены номера телефона, отправляем код, который пришел по email, на этот же роут
+```
+{
+	"verify_code": "1a2S3d"
+}
+```
+
+### `RESPONSE`
+200 OK
+
+
+## Изменение пароля
+### `PATCH: /api/me/change_pass`
+`HEADERS: Authorization: <access_token>`
+
+Если стары пароль верен, то все ок и новый пароль будет установлен
+```
+{
+	"old_pass": "cock",
+	"new_pass": "kek"
+}
+```
+
+### `RESPONSE`
+200 OK
+
+
+# Запрос параметров для выкупа старых устройств MacBook TradeIn
+### `POST: /api/macbook_buyout/params`
+
+Запрос параметров может осуществляться с фильтрами описанными ниже, или без и тогда будут возвращены все параметры существующих предложений
+```
+{
+    "models_macbooks":  "macbookpro",
+    "year": 2012
+}
+```
+\* - обязательные поля <br>
+`models_macbooks` - модель устройства <br>
+`memory `- объем ПЗУ <br>
+`inches `- диагональ экрана <br>
+`touch_bar `- наличие тачбара <br>
+`ram` - объем ОЗУ <br>
+`year` (int) - год выпуска <br>
+`is_retina` (bool) - установлен ли дислпей Retina <br>
+
+### `RESPONSE`
+
+В ответ, апи вернет сгруппированные параметры для кажого типа моделей
+```
+{
+    "macbookpro": {
+        "device_name": "MacBook Pro",
+        "device_abbr": "macbookpro",
+        "params": {
+            "memory": {
+                "vals": [
+                    {
+                        "name": "512",
+                        "abbr": "512"
+                    }
+                ],
+                "group_abbr": "memory",
+                "group_name": "Memory"
+            },
+            "ram": {
+                "vals": [
+                    {
+                        "name": "16",
+                        "abbr": "16"
+                    }
+                ],
+                "group_abbr": "ram",
+                "group_name": "RAM"
+            },
+            "year": {
+                "vals": [
+                    2012
+                ],
+                "group_abbr": "year",
+                "group_name": "Год"
+            }
+        }
+    }
+}
+```
+
+
+# Подсчет цены на выкуп устройства MacBook TradeIn
+### `POST: /api/macbook_buyout`
+
+Данные которые передаються, если устройство в нерабочем сосотоянии ("damaged": true - указывает на это)
+```
+{
+	"models_macbooks": "macbookpro",
+	"memory": "512",
+	"ram": "16",
+	"inches": "15",
+	"touch_bar": "no",
+	"year": 2012,
+	"is_retina": true,
+	"damaged": true
+}
+```
+\* - обязательные поля <br>
+`*models_macbooks` - модель устройства <br>
+`*memory `- объем ПЗУ <br>
+`*inches `- диагональ экрана <br>
+`*touch_bar `- наличие тачбара <br>
+`*ram` - объем ОЗУ <br>
+`*year` (int) - год выпуска <br>
+`*is_retina` (bool) - установлен ли дислпей Retina <br>
+`damaged` (bool) - повреждено ли устройстрво (true - устройство не рабочее, false - устройство работает)<br>
+
+### `RESPONSE`
+
+В этом случае будет возвращен приблизательный диапазон цен
+```
+{
+    "offer_id": "916e18e8-9601-44a0-8709-f7dbda5bc198",
+    "min_price": 30000,
+    "max_price": 45000
+}
+```
+
+### `POST: /api/macbook_buyout`
+
+Если же устройство рабочее, в таком случае учитываються доп параметры влияющие на цену, при этом не обязательно передават все параметры
+```
+{
+	"models_macbooks": "macbookpro",
+	"memory": "512",
+	"ram": "16",
+    "inches": "15",
+	"year": 2012,
+	"damaged": false,
+	"scratches": "micro",
+	"legs": "not_all"
+}
+```
+\* - обязательные поля <br>
+`scratches` - Царапины по корпусу (`'no' - Нет, 'micro' - Микро, 'yes' - Видны`) <br>
+`chips` - Сколы по бокам (`'no' - Нет, 'couple' - Есть парочка, 'many' - Много`) <br>
+`legs` - Наличие ножек (`'all' - Все, 'not_all' - Не хвататет`) <br>
+`keyboard` - Клавиатура (`'rus' - Русская, 'lat' - Латиница`) <br>
+`battery_life` - Циклы батареи (`'ok' - до 800 (500 для 2012), 'much_used' - больше 800 (500 для 2012)`) <br>
+`dents` - Вмятины (`'yes' - Есть, 'no' - Нет`) <br>
+`gap` - Зазор между крышками  (`'yes' - Есть, 'no' - Нет`) <br>
+`anti_reflect` - Антибликовое покрытие  (`'ok' - Идеал, 'damaged25' - Повреждения 0-25%, 'damaged50' - Повреждения 25-50%, 'damaged100' - Повреждения 50-100%`) <br>
+
+### `RESPONSE`
+
+Будет возварщена посчитанная цена для продажи и для трейдинов, а также ID оффера, для оформления заказа
+```
+{
+    "counted_price": 38454,
+    "offer_id": "916e18e8-9601-44a0-8709-f7dbda5bc198",
+    "counted_tradein_price": 43454
+}
+```
+
+# Запрос параметров для новых устройств MacBook TradeIn
+### `POST: /api/macbook_tradein/params`
+
+Запрос параметров может осуществляться с фильтрами описанными ниже, или без и тогда будут возвращены все параметры существующих предложений
+```
+{
+	"models_macbooks": "macbookpro",
+	"memory": "512"
+}
+```
+\* - обязательные поля <br>
+`models_macbooks` - модель устройства <br>
+`memory `- объем ПЗУ <br>
+`ram `- объем ОЗУ <br>
+`inches `- диагональ экрана <br>
+`cpu` - тип ЦПУ <br>
+`touch_bar` - наличие тачбара <br>
+
+### `RESPONSE`
+
+В ответ, апи вернет сгруппированные параметры для кажого типа моделей
+```
+{
+    "macbookpro": {
+        "device_abbr": "macbookpro",
+        "params": {
+            "memory": {
+                "group_abbr": "memory",
+                "group_name": "Memory",
+                "vals": [
+                    {
+                        "name": "512",
+                        "abbr": "512"
+                    }
+                ]
+            },
+            "cpu": {
+                "group_abbr": "cpu",
+                "group_name": "CPU",
+                "vals": [
+                    {
+                        "name": "3.1GHz dual-core Intel Core i5",
+                        "abbr": "3.1"
+                    }
+                ]
+            },
+            "inches": {
+                "group_abbr": "inches",
+                "group_name": "Inches",
+                "vals": [
+                    {
+                        "name": "15\"",
+                        "abbr": "15"
+                    }
+                ]
+            },
+            "touch_bar": {
+                "group_abbr": "touch_bar",
+                "group_name": "Тачбар",
+                "vals": [
+                    {
+                        "name": "Есть",
+                        "abbr": "yes"
+                    }
+                ]
+            }
+        },
+        "device_name": "MacBook Pro"
+    }
+}
+```
+
+
+# Подсчет цены на приобретение новго устройства MacBook TradeIn
+### `POST: /api/macbook_tradein`
+
+Данные которые передаються, если устройство в нерабочем сосотоянии ("damaged": true - указывает на это)
+```
+{
+	"models_macbooks": "macbookpro",
+	"memory": "512",
+	"ram": "16",
+	"cpu": "3.1",
+	"inches": "15",
+	"touch_bar": "yes"
+}
+```
+\* - обязательные поля <br>
+`*models_macbooks` - модель устройства <br>
+`*memory `- объем ПЗУ <br>
+`*ram `- объем ОЗУ <br>
+`*inches `- диагональ экрана <br>
+`*cpu` - тип ЦПУ <br>
+`*touch_bar` - налицие тачбара <br>
+
+### `RESPONSE`
+
+```
+{
+    "apple_price": 70000,
+    "offer_id": "47225b53-3446-4e29-a07c-381782990a1d",
+    "price": 60000
+}
+```
+
+
+# Создание заказа MacBook TradeIn
+### `POST: /api/macbook_tradein/make_order`
+
+Создать заказ можно только на продажу старого макбука или на трейдин. Здесь важно значение имеет отвечающий за это параметр sell_only. Ниже пример заказа только продажи старого макбук
+```
+{
+	"old_mac": {
+		"id": "cbef4af9-f3a6-4db8-99b2-a0c480c49126",
+		"damaged": false,
+		"scratches": "micro",
+		"legs": "not_all"
+	},
+	"new_mac":{
+		"id": "47225b53-3446-4e29-a07c-381782990a1d",
+		"color": "Красный"
+	},
+	"sell_only": true,
+	"name": "kekcheburek",
+	"phone": "0000000000",
+	"city": "еемасква",
+	"referal_code": "Db7XrO"
+}
+```
+\* - обязательные поля <br>
+`*name` - Имя клиента <br>
+`*phone `- Номер телефона клиента <br>
+`*city` - Город <br>
+`commment` - Комментарий <br>
+`referal_code` - Код рефералочки <br>
+`*sell_only` - Флаг только ли продажа мака (true) или это трейдин (false) <br>
+`*old_mac` - Информация по продаваемому маку <br>
+`|-- *id` - ID предложения <br>
+`|-- *damaged` - повреждено ли устройстрво (true - устройство не рабочее, false - устройство работает) <br>
+`|--` Далее те-же параметры дефектов (царапины по корпусу, сколы по бокам) <br>
+`new_mac` - Информация по новому маку <br>
+`|-- *id` - ID предложения <br>
+`|-- *color` - цвет устйства просто текстом <br>
+
+### `RESPONSE`
+
+```
+{
+    "referal_code": "Db7XrO"
+}
+```
+
+
+# Проверка рефералки
+### `POST: /api/referal`
+
+Проверям валиден ли код и при при использовании какой услуги он был сгенерирован
+```
+{
+	"referal_code": "Db7XrO"
+}
+```
+\* - обязательные поля <br>
+`*referal_code` - Код рефералочки <br>
+
+### `RESPONSE`
+
+```
+{
+    "service_type": "Macbook TradeIn"
+}
+```
+
+# Парсинг Google docs(spreadsheets)
+### нужны 2 файла: service_creds.json и client_secret.json
+### откуда они берутся и описание либы тут: https://pygsheets.readthedocs.io/en/stable/authorizing.html

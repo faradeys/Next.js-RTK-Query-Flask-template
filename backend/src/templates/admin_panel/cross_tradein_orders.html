@@ -1,0 +1,91 @@
+{% extends "admin_panel/layouts/base.html" %}
+{% block content %}
+    <div class="container-fluid">
+        <div class="row page-titles">
+            <div class="col-md-12 align-self-center">
+                <h3 class="col-md-12 text-themecolor pull-left">Заказы на выкуп и trade-in</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <div class="col-md-12">
+                                <h3 class="col-md-10 text-themecolor pull-left"><span class="lstick"></span>Поиск по реферал коду</h3>
+                            </div>
+                        </div>
+                        {% if search_fail %}
+                            <div class="user_search_status alert alert-warning" role="alert">Ничего не найдено</div>
+                        {% endif %}
+                        <form id="find_referal_form" method="post" action="/admin/cross_tradein_orders">
+                            <input type="text" class="form-control col-md-9" name="search_str" placeholder="Например gyFlwV" value="" required>
+                            <input type="submit" class="find_referal_btn btn btn-secondary" value="Найти">
+                        </form>
+                        {% if not search_fail %}
+                            <div class="d-flex">
+                                <div class="col-md-12">
+                                    <h3 class="col-md-10 text-themecolor pull-left"><span class="lstick"></span>{% if orders_list and orders_list[0]['referal_code'] %} Список заказов по реферал коду {{orders_list[0]['referal_code']}}{% else %} Список заказов (последние 70) {% endif %}</h3>
+                                </div>
+                            </div>
+                        {% endif %}
+                        {% if orders_list %}
+                            <table id="sort_table" class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Тип заказа</th>
+                                        <th>Продаваемое устройство</th>
+                                        <th>Приобретаемое устройство</th>
+                                        <th>Время заказа</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>                                    
+                                    {% for order in orders_list %}
+                                        <tr>
+                                            <td>{{ order.order_type }}</td>
+                                            <td>{{ order.sell_device }}</td>
+                                            <td>{{ order.new_device }}</td>
+                                            <td>{{ order.created_at }}</td>
+                                            <td>
+                                                <a href="{{ order.link }}" class="btn btn-primary">Подробнее</a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}                                    
+                                </tbody>
+                            </table>
+                             <nav>
+                                <ul class="pagination">
+                                    <li class="page-item {% if not orders_paginate.has_prev %}disabled {%endif%}">
+                                        <a class="page-link" href="./cross_tradein_orders?page={{orders_paginate.prev_num}}&per_page={{per_page}}">Назад</a>
+                                    </li>
+
+                                    {% for page in orders_paginate.iter_pages() %}
+                                        {% if page %}
+                                        <li class="page-item {% if page == orders_paginate.page %} active {% endif %}">
+                                            <a class="page-link" href="./cross_tradein_orders?page={{page}}&per_page={{per_page}}">{{page}}</a>
+                                        </li>
+                                        {% else %}
+                                            ...
+                                        {% endif %}
+                                    {% endfor %}
+
+                                    <li class="page-item {% if not orders_paginate.has_next %}disabled {%endif%}">
+                                        <a class="page-link" href="./cross_tradein_orders?page={{orders_paginate.next_num}}&per_page={{per_page}}">Вперёд</a>
+                                    </li>
+                                </ul>
+
+                                <div>Отобразить по:
+                                    <a href="./cross_tradein_orders?page={{cur_page}}&per_page=20">20</a>|
+                                    <a href="./cross_tradein_orders?page={{cur_page}}&per_page=50">50</a>|
+                                    <a href="./cross_tradein_orders?page={{cur_page}}&per_page=100">100</a>
+                                </div>
+                            </nav>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

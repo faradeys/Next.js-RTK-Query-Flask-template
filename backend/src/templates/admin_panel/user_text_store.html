@@ -1,0 +1,70 @@
+{% extends "admin_panel/layouts/base.html" %}
+{% block content %}
+    <div class="container-fluid">
+        <div class="row page-titles">
+            <div class="col-md-12 align-self-center">
+                <h3 class="col-md-12 text-themecolor pull-left">Текстовые данные пользователей</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <table id="sort_table" class="table">
+                            <thead>
+                                <tr>
+                                    <th>Телефон</th>
+                                    <th>Email</th>
+                                    <th>Имя</th>
+                                    <th>Текст</th>
+                                    <th style="min-width: 160px;">Дата</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for user_data in user_texts_list %}
+                                    <tr>
+                                        <td>{{ user_data.phone }}</td>
+                                        <td>{{ user_data.email }}</td>
+                                        <td>{{ user_data.name }}</td>
+                                        <td>{{ user_data.text }}</td>
+                                        <td>{{ user_data.created_at }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+
+                        <nav>
+                            <ul class="pagination">
+                                <li class="page-item {% if not user_texts_paginate.has_prev %}disabled {%endif%}">
+                                    <a class="page-link" href="./user_text_store?page={{user_texts_paginate.prev_num}}&per_page={{per_page}}">Назад</a>
+                                </li>
+
+                                {% for page in user_texts_paginate.iter_pages() %}
+                                    {% if page %}
+                                    <li class="page-item {% if page == user_texts_paginate.page %} active {% endif %}">
+                                        <a class="page-link" href="./user_text_store?page={{page}}&per_page={{per_page}}">{{page}}</a>
+                                    </li>
+                                    {% else %}
+                                        ...
+                                    {% endif %}
+                                {% endfor %}
+
+                                <li class="page-item {% if not user_texts_paginate.has_next %}disabled {%endif%}">
+                                    <a class="page-link" href="./user_text_store?page={{user_texts_paginate.next_num}}&per_page={{per_page}}">Вперёд</a>
+                                </li>
+                            </ul>
+
+                            <div>Отобразить по:
+                                <a href="./user_text_store?page={{cur_page}}&per_page=20">20</a>|
+                                <a href="./user_text_store?page={{cur_page}}&per_page=50">50</a>|
+                                <a href="./user_text_store?page={{cur_page}}&per_page=100">100</a>
+                            </div>
+                        </nav>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

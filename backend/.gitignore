@@ -1,0 +1,17 @@
+*~*
+*.bak
+*.puc
+*.swp
+*__pycache__/
+docker_files/
+.venv/*
+instance/*
+src/static/uploads/*
+!src/static/uploads/no_photo.jpg
+.idea/
+.env
+.DS_Store
+supervisord.pid
+client_secret.json
+service_creds.json
+docker/postgres/init.sql

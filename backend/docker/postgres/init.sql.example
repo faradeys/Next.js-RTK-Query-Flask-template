@@ -1,0 +1,6 @@
+\c template1;
+CREATE EXTENSION pgcrypto;
+CREATE DATABASE flask_api;
+
+CREATE USER db-user with superuser password '';
+GRANT ALL privileges ON DATABASE flask_api TO db-user;

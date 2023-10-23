@@ -1,0 +1,45 @@
+{% extends "admin_panel/layouts/base.html" %}
+{% block content %}
+    <div class="container-fluid">
+        <div class="row page-titles">
+            <div class="col-md-12 align-self-center">
+                <h3 class="col-md-12 text-themecolor pull-left">Facebook выгрузка телефонов</h3>
+                {% include "admin_panel/layouts/action_desc.html" %}
+            </div>
+        </div>
+        {% if search_fail %}
+            <div class="user_search_status alert alert-warning" role="alert">Не найдено пользователей по заданным параметрам</div>
+        {% endif %}
+        <div class="updates_status alert alert-success" role="alert">Данные обновлены</div>
+        <div class="updates_status alert alert-danger" role="alert"> </div>
+        <div class="updates_status alert alert-warning" role="alert"> </div>
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="alert alert-primary" role="alert">
+                          Поля НЕобязательные!
+                        </div>
+                        <form id="fboffload_form" method="post" action="/admin/fboffload" enctype="multipart/form-data">
+                            <label for="excp_file">Диапазон дат для выгрузки</label>
+                            <div class="form-group">
+                                <label for="excp_file">от</label>
+                                <input type="text" class="form-control col-md-4 begins" name="begins" placeholder="Формат: 2019-01-30" value="" required>
+                                <label for="excp_file" style="margin-left: 30px;">до</label>
+                                <input type="text" class="form-control col-md-4 ends" name="ends" placeholder="Формат: 2019-01-30" value="" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="excp_file">CSV файл с игнорируемыми телефонами</label>
+                                <input type="file" class="form-control-file" name="excp_file" id="excp_file">
+                            </div>
+                            <a class='fboffload_form btn btn-secondary col-md-3' href="#">Выгрузить</a>
+                        </form>
+                        </br><p>Формат загружаемого CSV файла. Один столбец, без имени столбца, с номерами телефонов. Формат телефонов не важен, они парсятся</p>
+                        <img src="/static/assets/images/csv_format.png" width="200" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

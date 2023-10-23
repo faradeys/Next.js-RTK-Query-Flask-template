@@ -1,0 +1,126 @@
+{% extends "admin_panel/layouts/base.html" %}
+{% block content %}
+    <div class="container-fluid">
+        <div class="row page-titles">
+            <div class="col-md-12 align-self-center">
+                <h3 class="col-md-12 text-themecolor pull-left">Выкуп аксессуаров</h3>
+                {% include "admin_panel/layouts/action_desc.html" %}
+            </div>
+        </div>
+        <div class="updates_status alert alert-success" role="alert">Данные обновлены</div>
+        <div class="updates_status alert alert-danger" role="alert"> </div>
+        <div class="updates_status alert alert-warning" role="alert"> </div>
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+                <div class="card">
+                    <div class="card-body">
+
+                        <div class="d-flex">
+                            <div class="col-md-12">
+                                <h3 class="col-md-9 text-themecolor pull-left"><span class="lstick"></span>Предложения по выкупу аксессуаров</h3>
+                                <a class='create_entry pull-right btn btn-success' href="#">Добавить</a>
+                            </div>
+                        </div>
+                        <table id="sort_table" class="table offers_table">
+                            <thead>
+                                <tr>
+                                    <th>Артикул</th>
+                                    <th>Тип аксессуара</th>
+                                    <th>Модель</th>
+                                    <th>Конфигурация</th>
+                                    <th>Память</th>
+                                    <th>Цена</th>
+                                    <th>Цена после ремонта</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for offer in offers_list %}
+                                    <tr {% if offer and offer.deprecated==1 %}class="deprecated_old"{% endif %}>
+                                        <td class="optional">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" name="vendor_code" placeholder="Артикул" value="{{ offer.vendor_code|default("", True) if offer }}" required>
+                                            </div>
+                                        </td>
+
+                                        <td>
+                                            <div class="form-group">
+                                                <select class="select-subject-model-macbook js-states form-control" name="accessories_device" required>
+                                                    <option></option>
+                                                    {% for accessories_device in params.accessories_device %}
+                                                        <option value="{{ accessories_device.val }}" {% if offer and offer.accessories_device==accessories_device.val %}selected{% endif %}>{{ accessories_device.name }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </td>
+
+                                        <td class="optional">
+                                            <div class="form-group">
+                                                <select class="select-subject-model-macbook js-states form-control" name="model" required>
+                                                    <option></option>
+                                                    {% for model in params.model %}
+                                                        <option value="{{ model.val }}" {% if model.parent %}disabled{% endif %} {% if offer and offer.model==model.val %}selected{% endif %}>{{ model.name }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </td>
+
+                                        <td class="optional">
+                                            <div class="form-group">
+                                                <select class="select-subject-model-macbook js-states form-control" name="keyboard_conf" required>
+                                                    <option></option>
+                                                    {% for keyboard_conf in params.keyboard_conf %}
+                                                        <option value="{{ keyboard_conf.val }}" {% if keyboard_conf.parent %}disabled{% endif %} {% if keyboard_conf and offer.keyboard_conf==keyboard_conf.val %}selected{% endif %}>{{ keyboard_conf.name }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </td>
+
+                                        <td class="optional">
+                                            <div class="form-group">
+                                                <select class="select-subject-memory js-states form-control" name="memory" required>
+                                                    <option></option>
+                                                    {% for memory in params.memory %}
+                                                        <option value="{{ memory.val }}" {% if offer and offer.memory==memory.val %}selected{% endif %}>{{ memory.name }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </td>
+
+                                        <td>
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" name="price" placeholder="Цена" value="{{ offer.price if offer }}" required>
+                                            </div>
+                                        </td>
+
+                                        <td>
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" name="price_repaired" placeholder="Цена после ремонта" value="{{ offer.price_repaired if offer }}" required>
+                                            </div>
+                                        </td>
+
+                                        {% if offer and offer.deprecated==1 %}
+                                            <td class="action_button">
+                                                <a class="respawn" href="#">👍</a>
+                                            </td>
+                                        {% else %}
+                                            <td class="action_button">
+                                                <a class="deprecated" href="#">💩</a>
+                                            </td>
+                                        {% endif %}
+                                        <td class="action_button">
+                                            <a class="purge" href="#">❌</a>
+                                        </td>
+                                        <input type="hidden" name="offer_id" value="{{ offer.id if offer }}">
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                            <input type="hidden" name="updates_offers_type" value="accessories_buyout">
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/assets/images/favicon.png">
+    <title>Администраторская панель DamProdam</title>
+    <link href="/static/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/assets/plugins/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <link href="/static/assets/plugins/c3-master/c3.min.css" rel="stylesheet">
+    <link href="/static/css/select2.min.css" rel="stylesheet">
+    <link href="/static/css/custom.css?v=1.2.9" rel="stylesheet">
+    <link href="/static/css/style.css" rel="stylesheet">
+    <link href="/static/css/pages/dashboard.css?v=1.2.9" rel="stylesheet">
+    <link href="/static/css/colors/default-dark.css" id="theme" rel="stylesheet">
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body class="fix-header fix-sidebar card-no-border mini-sidebar">
+    <div class="preloader">
+        <div class="loader">
+            <div class="loader__figure"></div>
+            <p class="loader__label">DamProdam</p>
+        </div>
+    </div>
+    <div id="main-wrapper">
+        <header class="topbar">
+            <nav class="navbar top-navbar navbar-expand-md navbar-light">
+                <div class="navbar-header">
+                        <span>
+                            <img src="/static/assets/images/logo.png" alt="homepage" class="dark-logo" />
+                        </span>
+                </div>
+                <div class="navbar-collapse">
+                    <ul class="navbar-nav mr-auto"></ul>
+                    <ul class="navbar-nav my-lg-0">
+                        <a href="/admin/logout" class="btn btn-info">Выход</a>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <aside class="left-sidebar">
+            <div class="scroll-sidebar">
+                <nav class="sidebar-nav">
+                    <ul id="sidebarnav">
+                       
+                        <li><a class="waves-effect waves-dark" href="/admin/service_params" aria-expanded="false"><i class="mdi mdi-codepen"></i><span class="hide-menu">Сервисные параметры</span></a></li>
+                        <li>
+                            <a class="waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-arrange-bring-forward"></i><span class="hide-menu">Ремонт</span></a>
+                            <ul>
+                                <li><a class="waves-effect waves-dark" href="/admin/repair_iphone" aria-expanded="false"><i class="mdi mdi-debug-step-into"></i><span >Цены ремонта iPhone</span></a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a class="waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-wrench"></i><span class="hide-menu">Helpers</span></a>
+                            <ul>
+                                <li><a class="waves-effect waves-dark" href="/admin/promo_codes" aria-expanded="false"><i class="mdi mdi-account-minus"></i><span >Промо-коды</span></a></li>
+                                <li><a class="waves-effect waves-dark" href="/admin/helpers/revmap" aria-expanded="false"><i class="mdi mdi-account-minus"></i><span >Бонусы за отзыв</span></a></li>
+                                <li><a class="waves-effect waves-dark" href="/admin/users" aria-expanded="false"><i class="mdi mdi-account"></i><span class="">Найти пользователя</span></a></li>
+                                <li><a class="waves-effect waves-dark" href="/admin/user_text_store" aria-expanded="false"><i class="mdi mdi-facebook-messenger"></i><span class="">Текст пользователей</span></a></li>
+                                <li><a class="waves-effect waves-dark" href="/admin/fboffload" aria-expanded="false"><i class="mdi mdi-facebook"></i><span class="">FB выгрузка телефонов</span></a></li>
+                                <li><a class="waves-effect waves-dark" href="/admin/priceload" aria-expanded="false"><i class="mdi mdi-codepen"></i><span class="">Выгрузка цен</span></a></li>
+                                <li><a class="waves-effect waves-dark" href="/admin/priceupload" aria-expanded="false"><i class="mdi mdi-codepen"></i><span class="">Загрузка цен</span></a></li>
+                                <li><a class="waves-effect waves-dark" href="/admin/cross_tradein_orders" aria-expanded="false"><i class="mdi mdi-basket"></i><span class="">Список заказов</span></a></li>
+                                <li><a class="waves-effect waves-dark" href="/admin/device_colors" aria-expanded="false"><i class="mdi"></i><span class="">Цвета</span></a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </aside>
+        <div class="page-wrapper">
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+    <script src="/static/assets/plugins/jquery/jquery.min.js"></script>
+    <script src="/static/assets/plugins/jquery/jquery.tablesorter.js"></script>
+    <script src="/static/js/select2.min.js"></script>
+    <script src="/static/js/dashboard.js?v=1.3.0"></script>
+    <script src="/static/assets/plugins/moment.js"></script>
+    <script src="/static/assets/plugins/bootstrap/js/popper.min.js"></script>
+    <script src="/static/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/static/assets/plugins/bootstrap/js/transition.js"></script>
+    <script src="/static/assets/plugins/bootstrap/js/collapse.js"></script>
+    <script src="/static/assets/plugins/bootstrap-datetimepicker.js"></script>
+    <script src="/static/js/perfect-scrollbar.jquery.min.js"></script>
+    <script src="/static/js/waves.js"></script>
+    <script src="/static/js/sidebarmenu.js"></script>
+    <script src="/static/js/custom.min.js?v=1.2.9"></script>
+    <script src="/static/assets/plugins/d3/d3.min.js"></script>
+    <script src="/static/assets/plugins/c3-master/c3.min.js"></script>
+</body>
+
+</html>
