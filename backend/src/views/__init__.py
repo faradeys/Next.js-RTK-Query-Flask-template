@@ -19,9 +19,6 @@ from src.views import service_params
 from src.views import admin_panel
 from src.views import users
 from src.views import user_text_store
-from src.views import phone_repair
-from src.views import promo_codes
-from src.views import repair_iphone
 
 
 
