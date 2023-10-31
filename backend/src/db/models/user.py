@@ -25,7 +25,6 @@ class User(db.Model):
                    primary_key=True)
     side_id = db.Column(db.VARCHAR(150))
     roles = db.relationship('Role', secondary=users_roles)
-    bonuses = db.Column(db.INTEGER, server_default=db.text('0'))
     name = db.Column(db.VARCHAR(256))
     city = db.Column(db.VARCHAR(200))
     email = db.Column(db.VARCHAR(160))

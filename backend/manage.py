@@ -12,7 +12,6 @@ from src.lib.utils import get_config
 from src.tests import run_unit_tests
 from src.db.fixtures import create_fixtures, params_fixtures
 from src.lib.context import shel_context
-from src.lib.mail_parser import get_email
 from flask_script import Manager, Command, Shell
 from flask_migrate import Migrate, MigrateCommand
 
@@ -54,7 +53,6 @@ manager.add_command("fix", Command(create_fixtures))
 manager.add_command("fix1", Command(params_fixtures))
 manager.add_command("test", tests_command)
 manager.add_command("shell", Shell(make_context=shel_context))
-manager.add_command("getemail", Command(get_email))
 
 if __name__ == '__main__':
     manager.run()
